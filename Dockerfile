@@ -31,9 +31,10 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 SHELL ["/bin/zsh", "-c"]
 
 # Build and install Ceres
+ENV CERES_VERSION="1.12.0"
 WORKDIR /home/${USERNAME}/pkg/ceres
 RUN   git clone --depth 1 --recursive https://ceres-solver.googlesource.com/ceres-solver && \
-      cd ceres-solver && git checkout tags/1.12.0 && mkdir build && cd build && \
+      cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
       cmake .. && make && sudo make install && make clean
 
 WORKDIR /home/${USERNAME}/code/ros_ws
