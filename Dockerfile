@@ -35,7 +35,7 @@ ENV CERES_VERSION="1.12.0"
 WORKDIR /home/${USERNAME}/pkg/ceres
 RUN   git clone https://ceres-solver.googlesource.com/ceres-solver && \
       cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
-      cmake -GNinja .. && ninja && sudo ninja install && ninja clean
+      cmake -GNinja .. && ninja && ninja install && ninja clean
 
 WORKDIR /home/${USERNAME}/code/ros_ws
 RUN   git clone --depth 1 --recursive https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git src && \
