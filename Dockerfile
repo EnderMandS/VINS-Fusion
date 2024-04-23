@@ -14,6 +14,13 @@ RUN   apt update &&  \
       DEBIAN_FRONTEND=noninteractive apt install -y keyboard-configuration && \
       rm -rf /var/lib/apt/lists/*
 
+# Build and install Ceres
+ENV CERES_VERSION="1.12.0"
+WORKDIR /home/${USERNAME}/pkg/ceres
+RUN   git clone https://ceres-solver.googlesource.com/ceres-solver && \
+      cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
+      cmake -GNinja .. && ninja && ninja install && ninja clean
+
 # setup user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -29,13 +36,6 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' /home/${USERNAME}/.zshrc
 SHELL ["/bin/zsh", "-c"]
-
-# Build and install Ceres
-ENV CERES_VERSION="1.12.0"
-WORKDIR /home/${USERNAME}/pkg/ceres
-RUN   git clone https://ceres-solver.googlesource.com/ceres-solver && \
-      cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
-      cmake -GNinja .. && ninja && ninja install && ninja clean
 
 WORKDIR /home/${USERNAME}/code/ros_ws
 RUN   git clone --depth 1 --recursive https://github.com/HKUST-Aerial-Robotics/VINS-Fusion.git src && \
