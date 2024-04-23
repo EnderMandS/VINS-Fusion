@@ -33,7 +33,7 @@ SHELL ["/bin/zsh", "-c"]
 # Build and install Ceres
 ENV CERES_VERSION="1.12.0"
 WORKDIR /home/${USERNAME}/pkg/ceres
-RUN   git clone --depth 1 --recursive https://ceres-solver.googlesource.com/ceres-solver && \
+RUN   git clone https://ceres-solver.googlesource.com/ceres-solver && \
       cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
       cmake .. && make && sudo make install && make clean
 
