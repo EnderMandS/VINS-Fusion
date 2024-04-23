@@ -16,10 +16,10 @@ RUN   apt update &&  \
 
 # Build and install Ceres
 ENV CERES_VERSION="1.12.0"
-WORKDIR /home/${USERNAME}/pkg/ceres
+WORKDIR /pkg/ceres
 RUN   git clone https://ceres-solver.googlesource.com/ceres-solver && \
       cd ceres-solver && git checkout tags/${CERES_VERSION} && mkdir build && cd build && \
-      cmake -GNinja .. && ninja && ninja install && ninja clean
+      cmake -GNinja .. && ninja && sudo ninja install && ninja clean
 
 # setup user
 ARG USER_UID=1000
